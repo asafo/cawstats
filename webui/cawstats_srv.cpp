@@ -19,12 +19,13 @@ using std::string;
 
 cawstats_srv::cawstats_srv(cppcms::service& srv): cppcms::application(srv)
 {
+    _static_prefix = settings().get("application.static_prefix","");
 
 #ifdef STAND_ALONE
-    // static files (development, stand alone) : 
-    dispatcher().assign("/([A-Za-z\\-]*)/(.*\\.js)", &cawstats_srv::js, this, 1, 2);
-    dispatcher().assign("/([A-Za-z\\-]*)/(.*\\.css)", &cawstats_srv::css, this, 1, 2);
-    dispatcher().assign("/([A-Za-z\\-]*)/(.*\\.png)", &cawstats_srv::image, this, 1, 2);
+    // static files (development, stand alone) :
+    dispatcher().assign("/js/(.*\\.js)", &cawstats_srv::js, this, 1);
+    dispatcher().assign("/css/(.*\\.css)", &cawstats_srv::css, this, 1);
+    dispatcher().assign("/img/(.*\\.png)", &cawstats_srv::image, this, 1);
 #endif
 
     attach(new rest_api(srv),  "/api",  "api/{1}", // mapping  
@@ -48,27 +49,28 @@ void cawstats_srv::home(std::string)
 
 void cawstats_srv::main(std::string url)
 {
-    /*    std::cout<<"main in celsius_srv "<<url<<std::endl;
-    std::cout<<"prefix = "<<_app_prefix<<std::endl;
+    std::cout<<"main in cawstats_srv "<<url<<std::endl;
+    std::cout<<"static prefix = "<<_static_prefix<<std::endl;
     std::cout<<"query string "<<request().query_string()<<std::endl;
-    std::cout<<"method : "<<request().request_method()<<std::endl;*/
+    std::cout<<"method : "<<request().request_method()<<std::endl;
     cppcms::application::main(url);
 }
 
 #ifdef STAND_ALONE
-void cawstats_srv::js(std::string path, std::string url)
+void cawstats_srv::js(std::string path)
 {
-    serve_file(path + "/" + url, "application/javascript");
+    std::cout<<" >> cawstats_srv::js path = "<<path<<std::endl;
+    serve_file( _static_prefix +  "/js/" + path, "application/javascript");
 }
 
-void cawstats_srv::css(std::string path, std::string url)
+void cawstats_srv::css(std::string path)
 {
-    serve_file(path + "/" + url, "text/css");
+    serve_file("/css/" + path, "text/css");
 }
 
-void cawstats_srv::image(std::string path, std::string url)
+void cawstats_srv::image(std::string path)
 {
-    serve_file(path + "/" + url, "image");
+    serve_file("/img/" + path, "image");
 }
 
 void cawstats_srv::serve_file(std::string file_name, std::string content_type)

@@ -12,11 +12,18 @@ using namespace cawstats;
 rest_api::rest_api(cppcms::service& srv) : cppcms::application(srv)
 { 
     dispatcher().assign("/month/([0-9]*)/([0-9]*)/", &rest_api::month, this, 1, 2);
+    // with domain:
+    // dispatcher().assign("/(.*)/month/([0-9]*)/([0-9]*)/", &rest_api::month, this, 1, 2, 3);
 }
 
 void rest_api::month(std::string year, std::string month) 
 {
 }
+
+// with domain:
+/*void rest_api::month(std::string domain, std::string year, std::string month) 
+{
+}*/
 
 void rest_api::main(std::string url)
 {

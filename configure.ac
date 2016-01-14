@@ -15,7 +15,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Checks for modules.
-PKG_CHECK_MODULES([DEPS], [curlpp >= 0.7.3])
+# PKG_CHECK_MODULES([DEPS], [curlpp >= 0.7.3])
 
 # Checks for libraries.
 AM_PROG_LIBTOOL

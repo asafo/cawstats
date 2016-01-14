@@ -15,6 +15,6 @@ cawstats_webui_LDADD = -lcawstats $(DEPS_LIBS) -lcppcms -lboost_date_time
 
 libdefault_skin_la_SOURCES = webui/skin/skin.cpp
 
-webui/skin/skin.cpp:
+webui/skin/skin.cpp: webui/view/home.tmpl
 	@mkdir -p webui/skin
 	cppcms_tmpl_cc webui/view/home.tmpl -o webui/skin/skin.cpp

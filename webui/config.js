@@ -1,5 +1,6 @@
 {  
     "application" : {
+	"static_prefix" : "/home/asaf/src/cawstats/webui"
     },
     "service" : {  
         "api" : "http",  

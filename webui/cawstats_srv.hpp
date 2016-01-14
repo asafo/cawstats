@@ -12,12 +12,13 @@ public:
     void home(std::string);
     void main(std::string);
 #ifdef STAND_ALONE
-    void js(std::string, std::string);
+    void js(std::string);
     void css(std::string, std::string);
     void image(std::string, std::string);
     void serve_file(std::string file_name, std::string content_type);
 #endif
 private:
+    std::string _static_prefix;
 };  
 
 #endif /* __CAWSTATS_WEBUI_CAWSTATS_SRV_HPP__*/
